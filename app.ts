@@ -3,7 +3,7 @@ import morgan = require('morgan');
 import bodyParser = require('body-parser');
 import express = require('express');
 import cluster = require('cluster');
-import { setRouter } from './src';
+import { setRouter } from './src/routes';
 // import https = require('https');
 // import os = require('os');
 
@@ -80,7 +80,7 @@ const setUpExpress = () => {
   setRouter(app);
 
   // start server
-  const listener: http.Server = app.listen(8000, () => {
+  const listener: any = app.listen(8000, () => {
     console.log(`Started server on => http://localhost:${listener.address().port} for Process Id ${process.pid}`);
   });
 

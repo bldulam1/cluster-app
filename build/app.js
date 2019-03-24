@@ -4,6 +4,7 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var express = require("express");
 var cluster = require("cluster");
+var routes_1 = require("./src/routes");
 // import https = require('https');
 // import os = require('os');
 process.on('unhandledRejection', function (rejectionErr) {
@@ -42,7 +43,7 @@ var setupWorkerProcesses = function () {
     });
     // if any of the worker process dies then start a new one by simply forking another one
     cluster.on('exit', function (worker, code, signal) {
-        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+        console.log("Worker " + worker.process.pid + " died with code: " + code + ", and signal: " + signal);
         console.log('Starting a new worker');
         cluster.fork();
         workers.push(cluster.fork());
@@ -66,10 +67,10 @@ var setUpExpress = function () {
     }));
     app.disable('x-powered-by');
     // routes
-    // setRouter(app);
+    routes_1.setRouter(app);
     // start server
-    app.listen('8000', function () {
-        console.log("Started server on => http://localhost:3000 for Process Id " + process.pid);
+    var listener = app.listen(8000, function () {
+        console.log("Started server on => http://localhost:" + listener.address().port + " for Process Id " + process.pid);
     });
     // in case of an error
     app.on('error', function (parent) {
